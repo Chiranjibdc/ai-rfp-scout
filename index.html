@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI RFP Scout — Discover, qualify, and analyze RFPs for IT services, BPOs, consulting firms, and MSPs." />
+  <title>AI RFP Scout</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232563eb' rx='20' width='100' height='100'/><text y='68' x='50' text-anchor='middle' font-size='48' fill='white' font-family='sans-serif' font-weight='700'>RS</text></svg>" />
+</head>
+<body>
+  <!-- Auth screens (shown when logged out) -->
+  <div id="auth-screen" class="auth-screen" hidden>
+    <div class="auth-layout">
+      <div class="auth-brand-panel">
+        <div class="auth-brand-inner">
+          <div class="brand-logo auth-logo">RS</div>
+          <h1>AI RFP Scout</h1>
+          <p class="auth-tagline">Enterprise bid intelligence for IT services, BPOs, consulting firms, and MSPs.</p>
+          <ul class="auth-features">
+            <li>Discover and score RFPs against your profile</li>
+            <li>Track compliance and proposal sections</li>
+            <li>Export matrices and proposal documents</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="auth-form-panel">
+        <!-- Login -->
+        <div id="login-view" class="auth-card">
+          <h2>Log in</h2>
+          <p class="auth-subtitle">Sign in with your email and password to continue.</p>
+          <div id="login-error" class="auth-error" hidden></div>
+          <form id="login-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="login-email">Email address</label>
+              <input class="form-input" id="login-email" name="email" type="email" autocomplete="username" required placeholder="you@company.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="login-password">Password</label>
+              <div class="password-field">
+                <input class="form-input" id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password" />
+                <button type="button" class="password-toggle" data-toggle-password="login-password" aria-label="Show password">Show</button>
+              </div>
+            </div>
+            <div class="auth-row">
+              <label class="checkbox-label">
+                <input type="checkbox" id="login-remember" checked />
+                Remember me
+              </label>
+              <button type="button" class="link-btn" id="btn-forgot" title="Demo: passwords are stored only in this browser">Forgot password?</button>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg auth-submit" id="login-submit">Log in</button>
+          </form>
+          <p class="auth-switch">
+            Don’t have an account?
+            <button type="button" class="link-btn" id="goto-register">Register</button>
+          </p>
+        </div>
+
+        <!-- Register -->
+        <div id="register-view" class="auth-card" hidden>
+          <h2>Create account</h2>
+          <p class="auth-subtitle">Register with your details to start using AI RFP Scout.</p>
+          <div id="register-error" class="auth-error" hidden></div>
+          <form id="register-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="reg-name">Full name <span class="required-mark">*</span></label>
+              <input class="form-input" id="reg-name" name="name" type="text" autocomplete="name" required placeholder="Your full name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-email">Email address <span class="required-mark">*</span></label>
+              <input class="form-input" id="reg-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-company">Company name</label>
+              <input class="form-input" id="reg-company" name="company" type="text" autocomplete="organization" placeholder="Your company (optional)" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-role">Role / job title</label>
+              <input class="form-input" id="reg-role" name="role" type="text" autocomplete="organization-title" placeholder="e.g. Bid Manager" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-password">Password <span class="required-mark">*</span></label>
+                <div class="password-field">
+                  <input class="form-input" id="reg-password" name="password" type="password" autocomplete="new-password" required placeholder="Min. 8 characters" />
+                  <button type="button" class="password-toggle" data-toggle-password="reg-password" aria-label="Show password">Show</button>
+                </div>
+                <p class="form-hint">At least 8 characters, with a letter and a number.</p>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-confirm">Confirm password <span class="required-mark">*</span></label>
+                <div class="password-field">
+                  <input class="form-input" id="reg-confirm" name="confirmPassword" type="password" autocomplete="new-password" required placeholder="Re-enter password" />
+                  <button type="button" class="password-toggle" data-toggle-password="reg-confirm" aria-label="Show password">Show</button>
+                </div>
+              </div>
+            </div>
+            <label class="checkbox-label auth-terms">
+              <input type="checkbox" id="reg-terms" required />
+              I agree to use this workspace for legitimate bid and RFP purposes.
+            </label>
+            <button type="submit" class="btn btn-primary btn-lg auth-submit" id="register-submit">Create account</button>
+          </form>
+          <p class="auth-switch">
+            Already have an account?
+            <button type="button" class="link-btn" id="goto-login">Log in</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main application (shown when logged in) -->
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">RS</div>
+        <div class="brand-text">
+          <h1>AI RFP Scout</h1>
+          <span>Enterprise Bid Intelligence</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav" aria-label="Main navigation"></nav>
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="user-avatar" id="user-avatar">?</div>
+          <div class="user-meta">
+            <div class="name" id="user-display-name">User</div>
+            <div class="role" id="user-display-role">Team</div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-secondary logout-btn" id="btn-logout">Log out</button>
+      </div>
+    </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12h18M3 6h18M3 18h18"/>
+            </svg>
+          </button>
+          <div>
+            <div class="page-title" id="page-title">Dashboard</div>
+            <div class="page-subtitle" id="page-subtitle">RFP pipeline overview and AI insights</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.5;flex-shrink:0">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            <input type="search" id="global-search" placeholder="Search RFPs..." aria-label="Global search" />
+          </div>
+          <button class="icon-btn" id="btn-notifications" aria-label="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="dot"></span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content" id="content" role="main"></main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Global API loading spinner -->
+  <div id="global-spinner" class="global-spinner" hidden aria-hidden="true">
+    <div class="global-spinner-card">
+      <div class="global-spinner-ring"></div>
+      <div class="global-spinner-text" id="global-spinner-text">Loading…</div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
