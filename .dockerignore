@@ -1,0 +1,13 @@
+.git
+.agents
+.codex
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+backend/.env
+backend/.env.*
+!backend/.env.example
+backend/rfp_scout.db
+backend/test_rfp_scout.db
+backend/uploads
+node_modules
