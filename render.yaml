@@ -1,0 +1,41 @@
+# Deploy the complete product with a single public URL.
+services:
+  - type: web
+    name: ai-rfp-scout
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    disk:
+      name: uploads
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: LOG_JSON
+        value: "true"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-rfp-scout-db
+          property: connectionString
+      # Same-origin browser requests do not need CORS. Add explicit HTTPS
+      # origins only if you later host the frontend separately.
+      - key: CORS_ORIGINS
+        value: ""
+      # Relative download URLs work behind Render's public HTTPS proxy.
+      - key: PUBLIC_BASE_URL
+        value: ""
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "10080"
+
+databases:
+  - name: ai-rfp-scout-db
+    plan: basic-256mb
+    databaseName: rfp_scout
+    user: rfp
